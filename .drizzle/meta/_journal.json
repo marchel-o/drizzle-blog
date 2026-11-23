@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "6",
+      "when": 1794806394649,
+      "tag": "0000_tiresome_colonel_america",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1794806414454,
+      "tag": "0001_unusual_surge",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1794807288146,
+      "tag": "0002_motionless_starhawk",
+      "breakpoints": true
+    }
+  ]
+}
