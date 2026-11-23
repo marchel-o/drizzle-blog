@@ -1,16 +1,28 @@
-'use client'
+'use client';
+
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 
-export default async function Home() {
-  // const posts = await getPosts();
-  const [posts, setPosts] = useState([]);
-  
+interface Post {
+  id: string;
+  title: string;
+  createdAt: string;
+}
+
+export default function Home() {
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
-    // Gunakan path relatif '/api/posts', jangan 'http://localhost:3000/api/posts'
     fetch('/api/posts')
       .then((res) => res.json())
-      .then((data) => setPosts(data));
+      .then((data) => {
+        if (Array.isArray(data)) {
+          setPosts(data);
+        }
+      })
+      .catch((err) => console.error('Gagal mengambil posts:', err))
+      .finally(() => setLoading(false));
   }, []);
 
   return (
@@ -19,17 +31,20 @@ export default async function Home() {
       <Link href="/create" className="btn btn-primary mb-3">
         Create Post
       </Link>
-      {posts.length === 0 ? (
+
+      {loading ? (
+        <p>Loading posts...</p>
+      ) : posts.length === 0 ? (
         <p>No posts yet.</p>
       ) : (
         <ul className="list-group">
-          {posts.map((post: unknown) => (
-            <li key={(post as { id: string }).id} className="list-group-item">
-              <Link href={`/post/${(post as { id: string }).id}`}>
-                {(post as { title: string }).title}
+          {posts.map((post) => (
+            <li key={post.id} className="list-group-item">
+              <Link href={`/post/${post.id}`}>
+                {post.title}
               </Link>
               <span className="text-muted float-end">
-                {new Date((post as { createdAt: string }).createdAt).toLocaleDateString('id-ID')}
+                {new Date(post.createdAt).toLocaleDateString('id-ID')}
               </span>
             </li>
           ))}
