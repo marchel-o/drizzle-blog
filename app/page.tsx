@@ -1,15 +1,17 @@
+'use client'
 import Link from 'next/link';
-
-async function getPosts() {
-  "use cache";
-  const res = await fetch('http://localhost:3000/api/posts', {
-    cache: 'no-store',
-  });
-  return res.json();
-}
+import { useEffect, useState } from 'react';
 
 export default async function Home() {
-  const posts = await getPosts();
+  // const posts = await getPosts();
+  const [posts, setPosts] = useState([]);
+  
+  useEffect(() => {
+    // Gunakan path relatif '/api/posts', jangan 'http://localhost:3000/api/posts'
+    fetch('/api/posts')
+      .then((res) => res.json())
+      .then((data) => setPosts(data));
+  }, []);
 
   return (
     <main className="container mt-4">
